@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { TouchableOpacity } from 'react-native'
 import MainRoutes from '../../navigation/routes/MainRoutes'
 import {
-  getFavoriteRecords,
+  rmvFavoriteRecord,
   saveFavoriteRecord,
 } from '../../utils/persistDataFunc'
 import { artWorkValidation } from '../../utils/validations'
@@ -17,7 +17,7 @@ const ArtWorkCard = ({
   baseUrl,
   navigation,
 }: any) => {
-  const [isOnFavorites, setIsOnFavorites] = useState<boolean | null>(null)
+  const [isOnFavorites, setIsOnFavorites] = useState<boolean>(false)
 
   const checkIfOnFavorites = async () => {
     const result = await artWorkValidation(title)
@@ -42,16 +42,9 @@ const ArtWorkCard = ({
       })
       checkIfOnFavorites()
     } else {
+      await rmvFavoriteRecord(id)
       checkIfOnFavorites()
-
-      console.log('This record is already in favs')
     }
-  }
-
-  const handleGetFavorites = async () => {
-    checkIfOnFavorites()
-    const favorites = await getFavoriteRecords()
-    console.log(favorites)
   }
 
   return (
@@ -69,7 +62,7 @@ const ArtWorkCard = ({
           style={styles.addToFavoritesButton}
         >
           <Text style={styles.addToFavoritesText}>
-            {isOnFavorites ? 'Remove from favorites' : 'Add to favorites'}
+            {isOnFavorites ? 'Remove favorite' : 'Add to favorites'}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={handleNavigate} style={styles.button}>

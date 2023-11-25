@@ -5,7 +5,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { MainStackParamListT } from '../../types/navigationTypes/MainStackNavigatorTypes'
 
 //Screens
-import ArtWorkDetailed from '../../screens/ArtWorkDetailed'
+import ArtWorkDetailed from '../../screens/ArtWorkDetailed/ArtWorkDetailed'
+import FavoriteArtWorks from '../../screens/FavoriteArtWorks/FavoriteArtWorks'
 import Home from '../../screens/Home'
 import MainRoutes from '../routes/MainRoutes'
 
@@ -22,6 +23,10 @@ const MainStack = () => {
       <Stack.Screen
         name={MainRoutes.ARTWORKDETAILED as 'ARTWORKDETAILED'}
         component={ArtWorkDetailed}
+      />
+      <Stack.Screen
+        name={MainRoutes.FAVORITES as 'FAVORITES'}
+        component={FavoriteArtWorks}
       />
     </Stack.Navigator>
   )
