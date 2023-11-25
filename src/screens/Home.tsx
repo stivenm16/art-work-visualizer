@@ -5,18 +5,18 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { TouchableOpacity } from 'react-native'
 import Layout from '../../Layout'
 import ArtWorkCard from '../components/ArtWorkCard/ArtWorkCard'
+import MainRoutes from '../navigation/routes/MainRoutes'
 import getArtWorks from '../services/getArtWorks'
 import { ArtWorkT } from '../types/apiResponses'
 import colors from '../utils/colorPallete'
-import { clearAllData } from '../utils/persistDataFunc'
 
 const Home = ({ navigation }: any) => {
   const [artWorks, setArtWorks] = useState<ArtWorkT[] | null>(null)
   useEffect(() => {
     getArtWorks().then((res) => setArtWorks(res))
   }, [])
-  const clearAsyncStorage = () => {
-    clearAllData()
+  const handleNavigate = () => {
+    navigation.navigate(MainRoutes.FAVORITES)
   }
   return (
     <SafeAreaView>
@@ -26,8 +26,8 @@ const Home = ({ navigation }: any) => {
             Home
           </Text>
 
-          <TouchableOpacity onPress={clearAsyncStorage}>
-            <Text>Clear</Text>
+          <TouchableOpacity onPress={handleNavigate}>
+            <Text>Go to favorites</Text>
           </TouchableOpacity>
           {artWorks ? (
             artWorks?.length > 0 &&

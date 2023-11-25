@@ -9,6 +9,15 @@ import {
 import { artWorkValidation } from '../../utils/validations'
 import styles from './ArtWorkCard.styles'
 
+interface Props {
+  id: number
+  title: string
+  imgCode: string
+  artistTitle: string
+  baseUrl: string
+  navigation: any
+  onPress?: any
+}
 const ArtWorkCard = ({
   id,
   title,
@@ -16,7 +25,8 @@ const ArtWorkCard = ({
   imgCode,
   baseUrl,
   navigation,
-}: any) => {
+  onPress,
+}: Props) => {
   const [isOnFavorites, setIsOnFavorites] = useState<boolean>(false)
 
   const checkIfOnFavorites = async () => {
@@ -41,9 +51,11 @@ const ArtWorkCard = ({
         imgCode,
       })
       checkIfOnFavorites()
+      if (onPress) onPress()
     } else {
       await rmvFavoriteRecord(id)
       checkIfOnFavorites()
+      if (onPress) onPress()
     }
   }
 
