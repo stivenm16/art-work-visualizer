@@ -1,6 +1,7 @@
 import { Image, Text, View } from '@gluestack-ui/themed'
 import React, { useEffect, useState } from 'react'
 import { TouchableOpacity } from 'react-native'
+import MainRoutes from '../../navigation/routes/MainRoutes'
 import {
   getFavoriteRecords,
   saveFavoriteRecord,
@@ -8,7 +9,14 @@ import {
 import { artWorkValidation } from '../../utils/validations'
 import styles from './ArtWorkCard.styles'
 
-const ArtWorkCard = ({ title, imgUrl, artistTitle }: any) => {
+const ArtWorkCard = ({
+  id,
+  title,
+  artistTitle,
+  imgCode,
+  baseUrl,
+  navigation,
+}: any) => {
   const [isOnFavorites, setIsOnFavorites] = useState<boolean | null>(null)
 
   const checkIfOnFavorites = async () => {
@@ -19,12 +27,18 @@ const ArtWorkCard = ({ title, imgUrl, artistTitle }: any) => {
     checkIfOnFavorites()
   }, [title])
 
+  const handleNavigate = () => {
+    navigation.navigate(MainRoutes.ARTWORKDETAILED, {
+      id,
+    })
+  }
   const handleSetFavorites = async () => {
     if (!isOnFavorites) {
       await saveFavoriteRecord({
+        id,
         title,
         artistTitle,
-        imgUrl,
+        imgCode,
       })
       checkIfOnFavorites()
     } else {
@@ -42,7 +56,11 @@ const ArtWorkCard = ({ title, imgUrl, artistTitle }: any) => {
 
   return (
     <View style={styles.cardContainer}>
-      <Image source={{ uri: imgUrl }} style={styles.image} alt={title} />
+      <Image
+        source={{ uri: `${baseUrl}/${imgCode}/full/843,/0/default.jpg` }}
+        style={styles.image}
+        alt={title}
+      />
       <View style={styles.textContainer}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.artist}>{artistTitle}</Text>
@@ -52,10 +70,9 @@ const ArtWorkCard = ({ title, imgUrl, artistTitle }: any) => {
         >
           <Text style={styles.addToFavoritesText}>
             {isOnFavorites ? 'Remove from favorites' : 'Add to favorites'}
-            {/* Add to favorites */}
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={handleGetFavorites} style={styles.button}>
+        <TouchableOpacity onPress={handleNavigate} style={styles.button}>
           <Text style={styles.buttonText}>View Details</Text>
         </TouchableOpacity>
       </View>

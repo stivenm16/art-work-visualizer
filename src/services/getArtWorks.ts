@@ -15,6 +15,7 @@ const getArtWorks = async (
     if (!data || !data.data) throw Error('Empty data')
     const filteredData: ArtWorkT[] = data.data.map((artWork: any) => {
       return {
+        id: artWork.id,
         title: artWork.title,
         placeOrigin: artWork.place_origin,
         artistTitle: artWork.artist_title,

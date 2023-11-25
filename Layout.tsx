@@ -6,7 +6,6 @@ import colors from './src/utils/colorPallete'
 interface LayoutProps {
   children: ReactNode
 }
-
 const Layout = ({ children }: LayoutProps) => {
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -23,7 +22,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 20,
-    paddingTop: 20,
+    marginTop: 20,
     alignItems: 'center',
   },
 })

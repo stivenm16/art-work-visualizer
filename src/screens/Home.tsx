@@ -1,4 +1,4 @@
-import { ScrollView, Spinner, Text } from '@gluestack-ui/themed'
+import { ScrollView, Spinner, Text, View } from '@gluestack-ui/themed'
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -10,12 +10,11 @@ import { ArtWorkT } from '../types/apiResponses'
 import colors from '../utils/colorPallete'
 import { clearAllData } from '../utils/persistDataFunc'
 
-const Home = () => {
+const Home = ({ navigation }: any) => {
   const [artWorks, setArtWorks] = useState<ArtWorkT[] | null>(null)
   useEffect(() => {
     getArtWorks().then((res) => setArtWorks(res))
   }, [])
-
   const clearAsyncStorage = () => {
     clearAllData()
   }
@@ -34,14 +33,26 @@ const Home = () => {
             artWorks?.length > 0 &&
             artWorks.map((artWork) => (
               <ArtWorkCard
+                id={artWork.id}
                 title={artWork.title}
-                imgUrl={`${artWork.img.baseUrl}/${artWork.img.imgCode}/full/843,/0/default.jpg`}
                 artistTitle={artWork.artistTitle}
+                navigation={navigation}
                 key={artWork.img.imgCode}
+                baseUrl={artWork.img.baseUrl}
+                imgCode={artWork.img.imgCode}
               />
             ))
           ) : (
-            <Spinner size={'large'} />
+            <View
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                minHeight: 470,
+              }}
+            >
+              <Spinner size={'large'} />
+            </View>
           )}
         </Layout>
       </ScrollView>
